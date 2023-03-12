@@ -6,6 +6,7 @@ use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -20,7 +21,10 @@ class PostType extends AbstractType
                 'choices' => Post::TYPES
             ])
             ->add('description')
-            ->add('file')
+            ->add('file', FileType::class, [
+                'label' => 'Foto',
+                'required' => false
+            ])
             ->add('submit', SubmitType::class)
         ;
     }
