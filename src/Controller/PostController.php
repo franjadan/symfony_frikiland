@@ -45,10 +45,15 @@ class PostController extends AbstractController
     public function index($id): Response
     {
 
-        //$post = $this->em->getRepository(Post::class)->find($id);
-        $post = $this->em->getRepository(Post::class)->findOneBy(['id' => $id]);
+        $post = $this->em->getRepository(Post::class)->find($id);
+        //$post = $this->em->getRepository(Post::class)->findOneBy(['id' => $id]);
+
+        $custom_post = $this->em->getRepository(Post::class)->findPost($id);
+
+
         return $this->render('post/index.html.twig', [
-            'post' => $post
+            'post' => $post,
+            'custom_post' => $custom_post
         ]);
     }
 
