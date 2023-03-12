@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use Datetime;
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostController extends AbstractController
@@ -55,6 +58,63 @@ class PostController extends AbstractController
             'post' => $post,
             'custom_post' => $custom_post
         ]);
+    }
+
+    /*
+    #[Route('/insert/post', name: 'insert_post')]
+    public function insert(){
+        $post = new Post;
+        $user = $this->em->getRepository(User::class)->find(1);
+
+        $post->setTitle('Mi post insertado')
+        ->setDescription('Hola mundo')
+        ->setCreationDate(new Datetime())
+        ->setUrl('mi url')
+        ->setFile('Hola mundo')
+        ->setType('Opinion')
+        ->setUser($user);
+
+        $this->em->persist($post);
+        $this->em->flush();
+
+        return new JsonResponse(['success' => true]);
+    }
+    */
+
+    #[Route('/insert/post', name: 'insert_post')]
+    public function insert(){
+        $post = new Post('Mi post insertado', 'Opinion', 'Hola mundo', 'hola.jpg', null, 'hola_mundo');
+        $user = $this->em->getRepository(User::class)->find(1);
+        $post->setUser($user);
+
+        $this->em->persist($post);
+        $this->em->flush();
+
+        return new JsonResponse(['success' => true]);
+    }
+
+    #[Route('/update/post', name: 'insert_post')]
+    public function update(){
+        $post = $this->em->getRepository(Post::class)->find(4);
+        $post->setTitle('Mi nuevo titulo');
+
+        //No hace falta porque ya está en la base de datos
+        //$this->em->persist($post);
+        $this->em->flush();
+
+        return new JsonResponse(['success' => true]);
+    }
+
+    #[Route('/remove/post', name: 'insert_post')]
+    public function remove(){
+        $post = $this->em->getRepository(Post::class)->find(4);
+        $this->em->remove($post);
+
+        //No hace falta porque ya está en la base de datos
+        //$this->em->persist($post);
+        $this->em->flush();
+
+        return new JsonResponse(['success' => true]);
     }
 
 }
