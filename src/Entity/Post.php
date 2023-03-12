@@ -13,10 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Post
 {
 
-    const TYPES = [
-        'Opinion' => 'Opinion',
-         'Humor' => 'Humor'
-    ];
+    const TYPES = ['Programacion' => 'Programación', 'Humor' => 'Humor', 'Aporte' => 'Aporte', 'Opinion' => 'Opinión', 'Debate' => 'Debate'];
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

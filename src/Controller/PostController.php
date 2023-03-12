@@ -26,10 +26,15 @@ class PostController extends AbstractController
     public function index(Request $request): Response
     {
         $post = new Post();
+
+        $posts = $this->em->getRepository(Post::class)->findAllPosts();
+
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $url = str_replace(" ", "-", $form->get('title')->getData());
+            $post->setUrl($url);
             $user = $this->em->getRepository(User::class)->find(1);
             $post->setUser($user);
             $this->em->persist($post);
@@ -38,7 +43,8 @@ class PostController extends AbstractController
         }
 
         return $this->render('/post/index.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'posts' => $posts,
         ]);
     }
 
