@@ -12,6 +12,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
 {
+
+    const TYPES = [
+        'Opinion' => 'Opinion',
+         'Humor' => 'Humor'
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
