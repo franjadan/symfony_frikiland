@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PostController!{% endblock %}
+{% block title %}Posts{% endblock %}
+{% block page_title %}Posts{% endblock %}
 
 {% block body %}
-    {{ form(form) }}
-    {{ dump(posts) }}
+    <div>
+        <p>Añadir un nuevo post</p>
+        {{ form(form) }}
+    </div>
 
     {# Esto es un comentario #}
 
@@ -18,25 +21,28 @@
         {{ 'hola mundo' | upper}}
     #}
 
-    <table>
-        <thead>
-            <tr>
-                <td>#</td>
-                <td>Titulo</td>
-                <td>Descripcion</td>
-                <td>Fecha de creacion</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for post in posts %}
+    <div class="mt-5">
+        <p>Posts</p>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{ post.id }}</td>
-                    <td>{{ post.title }}</td>
-                    <td>{{ post.description }}</td>
-                    <td>{{ post.creation_date|date('d/m/Y H:i') }}</td>
+                    <td>#</td>
+                    <td>Titulo</td>
+                    <td>Descripcion</td>
+                    <td>Fecha de creacion</td>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <td><a href="{{ path('postDetail', {id: post.id}) }}">Ver</a></td>
+                        <td>{{ post.title }}</td>
+                        <td>{{ post.description }}</td>
+                        <td>{{ post.creation_date|date('d/m/Y H:i') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}
