@@ -7,6 +7,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,11 +26,17 @@ class PostController extends AbstractController
     }
 
     #[Route('/', name: 'app_post')]
-    public function index(Request $request, SluggerInterface $slugger): Response
+    public function index(Request $request, SluggerInterface $slugger, PaginatorInterface $paginator): Response
     {
         $post = new Post();
 
-        $posts = $this->em->getRepository(Post::class)->findAllPosts();
+        $query = $this->em->getRepository(Post::class)->findAllPosts();
+
+        $pagination = $paginator->paginate(
+            $query, 
+            $request->query->getInt('page', 1), 
+            2
+        );
 
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -66,7 +73,7 @@ class PostController extends AbstractController
 
         return $this->render('/post/index.html.twig', [
             'form' => $form->createView(),
-            'posts' => $posts,
+            'posts' => $pagination,
         ]);
     }
 

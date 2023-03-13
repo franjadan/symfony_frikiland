@@ -29,13 +29,20 @@
 
     <div class="mt-5">
         <p>Posts</p>
+
         <table class="table">
             <thead>
                 <tr>
                     <td>#</td>
-                    <td>Titulo</td>
-                    <td>Descripcion</td>
-                    <td>Fecha de creacion</td>
+                    <th{% if posts.isSorted('post.title') %} class="sorted"{% endif %}>
+                        {{ knp_pagination_sortable(posts, 'Título', 'post.title') }}
+                    </th>
+                    <th{% if posts.isSorted('post.description') %} class="sorted"{% endif %}>
+                        {{ knp_pagination_sortable(posts, 'Descripcion', 'post.description') }}
+                    </th>
+                    <th{% if posts.isSorted('post.creation_date') %} class="sorted"{% endif %}>
+                        {{ knp_pagination_sortable(posts, 'Fecha de creación', 'post.creation_date') }}
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -49,6 +56,10 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(posts) }}
+        </div>
     </div>
 
 {% endblock %}
