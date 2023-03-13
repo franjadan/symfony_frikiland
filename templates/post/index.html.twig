@@ -4,10 +4,16 @@
 {% block page_title %}Posts{% endblock %}
 
 {% block body %}
-    <div>
-        <p>Añadir un nuevo post</p>
-        {{ form(form) }}
-    </div>
+    {% if app.user %}
+        <div>
+            <p>Añadir un nuevo post</p>
+            {{ form(form) }}
+        </div>
+    {% else %}
+        <div>
+            <p>Sólo los usuarios autenticados pueden crear posts.</p>
+        </div>
+    {% endif %}
 
     {# Esto es un comentario #}
 
